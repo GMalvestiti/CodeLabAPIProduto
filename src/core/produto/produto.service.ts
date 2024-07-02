@@ -1,13 +1,13 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { EMensagem } from 'src/shared/enums/mensagem.enum';
+import { handleFilter } from 'src/shared/helpers/sql.helper';
+import { IFindAllFilter } from 'src/shared/interfaces/find-all-filter.interface';
+import { IFindAllOrder } from 'src/shared/interfaces/find-all-order.interface';
+import { Repository } from 'typeorm';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Produto } from './entities/produto.entity';
-import { Repository } from 'typeorm';
-import { EMensagem } from 'src/shared/enums/mensagem.enum';
-import { IFindAllOrder } from 'src/shared/interfaces/find-all-order.interface';
-import { IFindAllFilter } from 'src/shared/interfaces/find-all-filter.interface';
-import { handleFilter } from 'src/shared/helpers/sql.helper';
 
 @Injectable()
 export class ProdutoService {
@@ -31,16 +31,19 @@ export class ProdutoService {
     const where = handleFilter(filter);
 
     return await this.repository.find({
-      order: { [order.column]: order.sort },
+      loadEagerRelations: false,
+      order: {
+        [order.column]: order.sort,
+      },
       where,
-      skip: page * size,
+      skip: size * page,
       take: size,
     });
   }
 
   async findOne(id: number): Promise<Produto> {
     return await this.repository.findOne({
-      where: { id },
+      where: { id: id },
     });
   }
 
@@ -60,7 +63,7 @@ export class ProdutoService {
 
   async unactivate(id: number): Promise<boolean> {
     const finded = await this.repository.findOne({
-      where: { id },
+      where: { id: id },
     });
 
     if (!finded) {

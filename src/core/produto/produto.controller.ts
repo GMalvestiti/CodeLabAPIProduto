@@ -1,27 +1,27 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
   Query,
 } from '@nestjs/common';
-import { ProdutoService } from './produto.service';
+import { HttpResponse } from 'src/shared/classes/http-response';
+import { IFindAllFilter } from 'src/shared/interfaces/find-all-filter.interface';
+import { IFindAllOrder } from 'src/shared/interfaces/find-all-order.interface';
+import { IResponse } from 'src/shared/interfaces/response.interface';
+import { ParseFindAllFilterPipe } from 'src/shared/pipes/parse-find-all-filter.pipe';
+import { ParseFindAllOrderPipe } from 'src/shared/pipes/parse-find-all-order.pipe';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
-import { IResponse } from 'src/shared/interfaces/response.interface';
 import { Produto } from './entities/produto.entity';
-import { HttpResponse } from 'src/shared/classes/http-response';
-import { ParseFindAllOrderPipe } from 'src/shared/pipes/parse-find-all-order.pipe';
-import { IFindAllOrder } from 'src/shared/interfaces/find-all-order.interface';
-import { IFindAllFilter } from 'src/shared/interfaces/find-all-filter.interface';
-import { ParseFindAllFilterPipe } from 'src/shared/pipes/parse-find-all-filter.pipe';
+import { ProdutoService } from './produto.service';
 
 @Controller('produto')
 export class ProdutoController {
-  constructor(private readonly produtoService: ProdutoService) {}
+  constructor(private readonly produtoService: ProdutoService) { }
 
   @Post()
   async create(
@@ -46,7 +46,7 @@ export class ProdutoController {
   }
 
   @Get(':id')
-  async indOne(@Param('id') id: number) {
+  async findOne(@Param('id') id: number): Promise<IResponse<Produto>> {
     const data = await this.produtoService.findOne(id);
 
     return new HttpResponse<Produto>(data);
@@ -56,16 +56,16 @@ export class ProdutoController {
   async update(
     @Param('id') id: number,
     @Body() updateProdutoDto: UpdateProdutoDto,
-  ) {
+  ): Promise<IResponse<Produto>> {
     const data = await this.produtoService.update(id, updateProdutoDto);
 
     return new HttpResponse<Produto>(data).onUpdated();
   }
 
   @Delete(':id')
-  async unactivate(@Param('id') id: number) {
+  async unactivate(@Param('id') id: number): Promise<IResponse<boolean>> {
     const data = await this.produtoService.unactivate(id);
 
-    return new HttpResponse<boolean>(data).onDeleted();
+    return new HttpResponse<boolean>(data).onUnactivated();
   }
 }

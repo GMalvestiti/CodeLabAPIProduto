@@ -1,10 +1,14 @@
 import { Type } from 'class-transformer';
-import { IsBase64, IsNotEmpty, MaxLength } from 'class-validator';
-import { EMensagem } from 'src/shared/enums/mensagem.enum';
+import {
+  IsBase64,
+  IsNotEmpty,
+  MaxLength
+} from 'class-validator';
+import { EMensagem } from '../../../shared/enums/mensagem.enum';
 
 export class CreateProdutoDto {
   @IsNotEmpty({ message: `descricao ${EMensagem.NAO_PODE_SER_VAZIO}` })
-  @MaxLength(60, {
+  @MaxLength(100, {
     message: `descricao ${EMensagem.MAIS_CARACTERES_QUE_PERMITIDO}`,
   })
   descricao: string;
@@ -21,7 +25,7 @@ export class CreateProdutoDto {
   @IsNotEmpty({ message: `ativo ${EMensagem.NAO_PODE_SER_VAZIO}` })
   ativo: boolean;
 
-  @IsNotEmpty({ message: `codigoBarras ${EMensagem.NAO_VALIDO}` })
-  @Type(() => String)
+  @IsArray({ message: `codigoBarras ${EMensagem.NAO_VALIDO}` })
+  @Type(() => Number)
   codigoBarras: string[];
 }

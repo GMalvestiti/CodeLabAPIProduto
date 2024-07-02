@@ -21,17 +21,23 @@ async function bootstrap() {
 
   app.enableCors();
 
-  setupOpenAPI(app);
+  setupOpenApi(app);
 
   await app.listen(3003);
+
+  Logger.log(
+    `Application is running on: ${await app.getUrl()}`,
+    'APIProduto',
+  );
 }
 bootstrap();
 
-function setupOpenAPI(app: INestApplication): void {
-  const config = new DocumentBuilder().setTitle('APIProduto').build();
-  const document = SwaggerModule.createDocument(app, config);
+function setupOpenApi(app: INestApplication): void {
+  if (process.env.NODE_ENV === 'development') {
+    const config = new DocumentBuilder().setTitle('APIProduto').build();
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('docs', app, document, { useGlobalPrefix: true });
 
-  SwaggerModule.setup('docs', app, document, { useGlobalPrefix: true });
-
-  Logger.log('OpenAPI is running on http://localhost:3003/api/v1/docs');
+    Logger.log(`Swagger UI is running on path http://localhost:3003/api/v1/docs`, 'APIProduto');
+  }
 }
