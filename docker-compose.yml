@@ -11,7 +11,7 @@ services:
       - '3003:3003'
       - '7003:7003'
     volumes:
-      - ./:/home/node/app
+      - .:/home/node/app
     networks:
       - codelab-net
 

@@ -1,8 +1,10 @@
 #!/bin/bash
 
-echo "Container started"
+echo "Container em execução"
 
 # tail -f /dev/null
+
+mkdir -p tmp/export
 
 # npm dedupe
 

@@ -1,5 +1,6 @@
 import { Type } from 'class-transformer';
 import {
+  IsArray,
   IsBase64,
   IsNotEmpty,
   MaxLength
