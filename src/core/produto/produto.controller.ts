@@ -80,7 +80,7 @@ export class ProdutoController {
     const data = await this.produtoService.exportPdf(idUsuario, order, filter);
 
     return new HttpResponse<boolean>(data).onSuccess(
-      EMensagem.IniciadaGeracaoPDF,
+      EMensagem.INICIADA_GERACAO_PDF,
     );
   }
 }

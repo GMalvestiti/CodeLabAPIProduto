@@ -78,7 +78,7 @@ describe('ProdutoService', () => {
         await service.create(createProdutoDto);
       } catch (error: any) {
         expect(error).toBeInstanceOf(HttpException);
-        expect(error.message).toBe(EMensagem.ImpossivelCadastrar);
+        expect(error.message).toBe(EMensagem.IMPOSSIVEL_ALTERAR);
         expect(spyRepositoryFindOne).toHaveBeenCalled();
       }
     });
@@ -176,7 +176,7 @@ describe('ProdutoService', () => {
         await service.update(2, updateProdutoDto);
       } catch (error: any) {
         expect(error).toBeInstanceOf(HttpException);
-        expect(error.message).toBe(EMensagem.IDsDiferentes);
+        expect(error.message).toBe(EMensagem.IDS_DIFERENTES);
       }
     });
 
@@ -209,7 +209,7 @@ describe('ProdutoService', () => {
         await service.update(1, updateProdutoDto);
       } catch (error: any) {
         expect(error).toBeInstanceOf(HttpException);
-        expect(error.message).toBe(EMensagem.ImpossivelAlterar);
+        expect(error.message).toBe(EMensagem.IMPOSSIVEL_ALTERAR);
         expect(spyRepositoryFindOne).toHaveBeenCalled();
       }
     });
@@ -255,7 +255,7 @@ describe('ProdutoService', () => {
         await service.unactivate(1);
       } catch (error: any) {
         expect(error).toBeInstanceOf(HttpException);
-        expect(error.message).toBe(EMensagem.ImpossivelAlterar);
+        expect(error.message).toBe(EMensagem.IMPOSSIVEL_ALTERAR);
         expect(spyRepositoryFindOne).toHaveBeenCalled();
       }
     });

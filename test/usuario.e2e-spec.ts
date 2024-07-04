@@ -61,7 +61,7 @@ describe('AppController (e2e)', () => {
         .send(produto);
 
       expect(resp).toBeDefined();
-      expect(resp.body.message).toBe(EMensagem.SalvoSucesso);
+      expect(resp.body.message).toBe(EMensagem.SALVO_SUCESSO);
       expect(resp.body.data).toHaveProperty('id');
 
       id = resp.body.data.id;
@@ -74,7 +74,7 @@ describe('AppController (e2e)', () => {
 
       expect(resp).toBeDefined();
       expect(resp.status).toBe(HttpStatus.NOT_ACCEPTABLE);
-      expect(resp.body.message).toBe(EMensagem.ImpossivelCadastrar);
+      expect(resp.body.message).toBe(EMensagem.IMPOSSIVEL_CADASTRAR);
       expect(resp.body.data).toBe(null);
     });
 
@@ -103,7 +103,7 @@ describe('AppController (e2e)', () => {
         .send(produtoAlterado);
 
       expect(resp).toBeDefined();
-      expect(resp.body.message).toBe(EMensagem.AtualizadoSucesso);
+      expect(resp.body.message).toBe(EMensagem.ATUALIZADO_SUCESSO);
       expect(resp.body.data).toHaveProperty('id');
       expect(resp.body.data.nome).toBe(produtoAlterado.nome);
       expect(resp.body.data.email).toBe(produtoAlterado.email);
@@ -124,7 +124,7 @@ describe('AppController (e2e)', () => {
         .send(produtoAlterado);
 
       expect(resp.status).toBe(HttpStatus.NOT_ACCEPTABLE);
-      expect(resp.body.message).toBe(EMensagem.IDsDiferentes);
+      expect(resp.body.message).toBe(EMensagem.IDS_DIFERENTES);
       expect(resp.body.data).toBe(null);
     });
 
@@ -154,7 +154,7 @@ describe('AppController (e2e)', () => {
         .send(produtoAlterado);
 
       expect(resp.status).toBe(HttpStatus.NOT_ACCEPTABLE);
-      expect(resp.body.message).toBe(EMensagem.ImpossivelAlterar);
+      expect(resp.body.message).toBe(EMensagem.IMPOSSIVEL_ALTERAR);
       expect(resp.body.data).toBe(null);
     });
 

@@ -172,7 +172,7 @@ export class ProdutoService {
 
       if (usuario.id === 0) {
         throw new HttpException(
-          EMensagem.UsuarioNaoIdentificado,
+          EMensagem.USUARIO_NAO_IDENTIFICADO,
           HttpStatus.NOT_ACCEPTABLE,
         );
       }
@@ -194,7 +194,7 @@ export class ProdutoService {
       this.logger.error(`Erro ao gerar relatorio pdf: ${error}`);
 
       throw new HttpException(
-        EMensagem.ErroExportarPDF,
+        EMensagem.ERRO_EXPORTAR_PDF,
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
@@ -208,7 +208,7 @@ export class ProdutoService {
     } catch (error) {
       this.logger.error(`Erro comunicação gRPC - APIUsuario: ${error}`);
       throw new HttpException(
-        EMensagem.ErroComunicacaoGrpcUsuario,
+        EMensagem.ERRO_COMUNICACAO_GRPC_USUARIO,
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }

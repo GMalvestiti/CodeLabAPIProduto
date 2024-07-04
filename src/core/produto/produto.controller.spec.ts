@@ -51,7 +51,7 @@ describe('ProdutoController', () => {
 
       const response = await controller.create(createProdutoDto);
 
-      expect(response.message).toEqual(EMensagem.SalvoSucesso);
+      expect(response.message).toEqual(EMensagem.SALVO_SUCESSO);
       expect(response.data).toEqual(mockProduto);
       expect(spyServiceCreate).toHaveBeenCalled();
     });
@@ -124,7 +124,7 @@ describe('ProdutoController', () => {
 
       const response = await controller.update(1, mockProduto);
 
-      expect(response.message).toEqual(EMensagem.AtualizadoSucesso);
+      expect(response.message).toEqual(EMensagem.ATUALIZADO_SUCESSO);
       expect(response.data).toEqual(mockProduto);
       expect(spyServiceUpdate).toHaveBeenCalled();
     });
@@ -138,7 +138,7 @@ describe('ProdutoController', () => {
 
       const response = await controller.unactivate(1);
 
-      expect(response.message).toEqual(EMensagem.DesativadoSucesso);
+      expect(response.message).toEqual(EMensagem.DESATIVADO_SUCESSO);
       expect(response.data).toEqual(false);
       expect(spyServiceUpdate).toHaveBeenCalled();
     });
