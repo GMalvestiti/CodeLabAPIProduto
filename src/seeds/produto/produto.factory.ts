@@ -6,8 +6,9 @@ import { define } from 'typeorm-seeding';
 define(Produto, () => {
   const produto = new CreateProdutoDto();
 
-  const precoCusto = faker.commerce.price({ min: 1, max: 99, dec: 2 });
-  const precoVenda = (Number(precoCusto) * 1.3).toFixed(2);
+  const precoCusto = faker.number.float({ min: 1, max: 99, fractionDigits: 2 });
+  //faker.commerce.price({ min: 1, max: 99, dec: 2 });
+  const precoVenda = parseFloat((precoCusto * 1.3).toFixed(2));
 
   produto.descricao = faker.commerce.productName();
   produto.precoCusto = precoCusto;

@@ -1,10 +1,5 @@
 import { Type } from 'class-transformer';
-import {
-  IsArray,
-  IsBase64,
-  IsNotEmpty,
-  MaxLength
-} from 'class-validator';
+import { IsArray, IsBase64, IsNotEmpty, MaxLength } from 'class-validator';
 import { EMensagem } from '../../../shared/enums/mensagem.enum';
 
 export class CreateProdutoDto {
