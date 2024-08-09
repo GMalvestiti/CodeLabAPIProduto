@@ -35,13 +35,14 @@ export class ProdutoService {
 
   @Inject(ExportPdfService)
   private exportPdfService: ExportPdfService;
+
   private grpcUsuarioService: IGrpcUsuarioService;
+
   constructor(
     @Inject('GRPC_USUARIO')
     private readonly clientGrpcUsuario: ClientGrpc,
   ) {
-    this.grpcUsuarioService =
-      this.clientGrpcUsuario.getService<IGrpcUsuarioService>('UsuarioService');
+    this.grpcUsuarioService = this.clientGrpcUsuario.getService<IGrpcUsuarioService>('UsuarioService');
   }
 
   async create(createProdutoDto: CreateProdutoDto): Promise<Produto> {
