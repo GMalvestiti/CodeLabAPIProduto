@@ -25,10 +25,7 @@ async function bootstrap() {
 
   await app.listen(3003);
 
-  Logger.log(
-    `Application is running on: ${await app.getUrl()}`,
-    'APIProduto',
-  );
+  Logger.log(`Application is running on: ${await app.getUrl()}`, 'APIProduto');
 }
 bootstrap();
 
@@ -38,6 +35,9 @@ function setupOpenApi(app: INestApplication): void {
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('docs', app, document, { useGlobalPrefix: true });
 
-    Logger.log(`Swagger UI is running on path http://localhost:3003/api/v1/docs`, 'APIProduto');
+    Logger.log(
+      `Swagger UI is running on path http://localhost:3003/api/v1/docs`,
+      'APIProduto',
+    );
   }
 }

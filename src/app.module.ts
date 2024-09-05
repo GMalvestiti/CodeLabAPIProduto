@@ -7,13 +7,14 @@ import { LoggerMiddleware } from './shared/middleware/logger.middleware';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: `.env${process.env.NODE_ENV ? '.' + process.env.NODE_ENV : ''
-        }`,
+      envFilePath: `.env${
+        process.env.NODE_ENV ? '.' + process.env.NODE_ENV : ''
+      }`,
       isGlobal: true,
     }),
     DatabaseModule,
     ProdutoModule,
-  ]
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

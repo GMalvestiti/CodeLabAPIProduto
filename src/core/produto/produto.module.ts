@@ -40,4 +40,4 @@ import { ProdutoService } from './produto.service';
     },
   ],
 })
-export class ProdutoModule { }
+export class ProdutoModule {}

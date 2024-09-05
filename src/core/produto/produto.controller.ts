@@ -22,7 +22,7 @@ import { ProdutoService } from './produto.service';
 
 @Controller('produto')
 export class ProdutoController {
-  constructor(private readonly produtoService: ProdutoService) { }
+  constructor(private readonly produtoService: ProdutoService) {}
 
   @Post()
   async create(
