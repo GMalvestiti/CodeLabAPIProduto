@@ -20,7 +20,7 @@ import { UpdateProdutoDto } from './dto/update-produto.dto';
 import { Produto } from './entities/produto.entity';
 import { ProdutoService } from './produto.service';
 
-@Controller('produto')
+@Controller('')
 export class ProdutoController {
   constructor(private readonly produtoService: ProdutoService) {}
 
@@ -41,9 +41,14 @@ export class ProdutoController {
     @Query('filter', ParseFindAllFilterPipe)
     filter: IFindAllFilter | IFindAllFilter[],
   ): Promise<IResponse<Produto[]>> {
-    const data = await this.produtoService.findAll(page, size, order, filter);
+    const { data, count } = await this.produtoService.findAll(
+      page,
+      size,
+      order,
+      filter,
+    );
 
-    return new HttpResponse<Produto[]>(data);
+    return new HttpResponse<Produto[]>(data, undefined, count);
   }
 
   @Get(':id')
@@ -60,7 +65,7 @@ export class ProdutoController {
   ): Promise<IResponse<Produto>> {
     const data = await this.produtoService.update(id, updateProdutoDto);
 
-    return new HttpResponse<Produto>(data).onUpdated();
+    return new HttpResponse<Produto>(data).onUpdate();
   }
 
   @Delete(':id')

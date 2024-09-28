@@ -22,6 +22,7 @@ import { ExportPdfService } from '../../shared/services/export-pdf.service';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
 import { Produto } from './entities/produto.entity';
+import { IResponse } from 'src/shared/interfaces/response.interface';
 
 @Injectable()
 export class ProdutoService {
@@ -57,20 +58,18 @@ export class ProdutoService {
     size: number,
     order: IFindAllOrder,
     filter?: IFindAllFilter | IFindAllFilter[],
-  ): Promise<Produto[]> {
-    page--;
-
+  ): Promise<IResponse<Produto[]>> {
     const where = handleFilter(filter);
 
-    return await this.repository.find({
+    const [data, count] = await this.repository.findAndCount({
       loadEagerRelations: false,
-      order: {
-        [order.column]: order.sort,
-      },
+      order: { [order.column]: order.sort },
       where,
       skip: size * page,
       take: size,
     });
+
+    return { data, count, message: null };
   }
 
   async findOne(id: number): Promise<Produto> {
@@ -100,7 +99,7 @@ export class ProdutoService {
 
     if (!finded) {
       throw new HttpException(
-        EMensagem.IMPOSSIVEL_ALTERAR,
+        EMensagem.IMPOSSIVEL_DESATIVAR,
         HttpStatus.NOT_ACCEPTABLE,
       );
     }
