@@ -9,20 +9,20 @@ import { ClientGrpc, ClientProxy } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
 import { readFileSync } from 'fs';
 import { lastValueFrom } from 'rxjs';
-import { EMensagem } from 'src/shared/enums/mensagem.enum';
-import { handleFilter } from 'src/shared/helpers/sql.helper';
-import { IFindAllFilter } from 'src/shared/interfaces/find-all-filter.interface';
-import { IFindAllOrder } from 'src/shared/interfaces/find-all-order.interface';
 import { Repository } from 'typeorm';
 import { EnviarEmailDto } from '../../shared/dtos/enviar-email.dto';
+import { EMensagem } from '../../shared/enums/mensagem.enum';
 import { monetaryFormat } from '../../shared/helpers/formatter.helper';
+import { handleFilter } from '../../shared/helpers/sql.helper';
+import { IFindAllFilter } from '../../shared/interfaces/find-all-filter.interface';
+import { IFindAllOrder } from '../../shared/interfaces/find-all-order.interface';
 import { IGrpcUsuarioService } from '../../shared/interfaces/grpc-usuario.service';
+import { IResponse } from '../../shared/interfaces/response.interface';
 import { IUsuario } from '../../shared/interfaces/usuario.interface';
 import { ExportPdfService } from '../../shared/services/export-pdf.service';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
 import { Produto } from './entities/produto.entity';
-import { IResponse } from 'src/shared/interfaces/response.interface';
 
 @Injectable()
 export class ProdutoService {
@@ -201,7 +201,7 @@ export class ProdutoService {
     }
   }
 
-  private async getUsuarioFromGrpc(id: number): Promise<IUsuario> {
+  async getUsuarioFromGrpc(id: number): Promise<IUsuario> {
     try {
       return (await lastValueFrom(
         this.grpcUsuarioService.FindOne({ id }),
