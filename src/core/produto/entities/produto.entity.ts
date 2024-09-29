@@ -10,10 +10,10 @@ export class Produto {
   @Column({ length: 60, nullable: false })
   descricao: string;
 
-  @Column({ type: 'numeric', precision: 13, scale: 3, nullable: false })
+  @Column({ type: 'numeric', precision: 13, scale: 2, nullable: false })
   precoCusto: number;
 
-  @Column({ type: 'numeric', precision: 13, scale: 3, nullable: false })
+  @Column({ type: 'numeric', precision: 13, scale: 2, nullable: false })
   precoVenda: number;
 
   @Column({ type: 'bytea', nullable: true })
