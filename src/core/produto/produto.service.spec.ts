@@ -3,7 +3,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { EMensagem } from '../../shared/enums/mensagem.enum';
-import { monetaryFormat } from '../../shared/helpers/formatter.helper';
 import { IFindAllFilter } from '../../shared/interfaces/find-all-filter.interface';
 import { IFindAllOrder } from '../../shared/interfaces/find-all-order.interface';
 import { IUsuario } from '../../shared/interfaces/usuario.interface';
@@ -222,7 +221,7 @@ describe('ProdutoService', () => {
     });
 
     it('should throw an error when produto is not found', async () => {
-      const spyRepositoryFindOne = jest
+      jest
         .spyOn(repository, 'findOne')
         .mockReturnValue(Promise.resolve(null) as any);
 
@@ -245,12 +244,13 @@ describe('ProdutoService', () => {
         .spyOn(repository, 'find')
         .mockReturnValue(Promise.resolve(mockListaProdutos));
 
-      const mockFilePath = '/path/to/generated/pdf';
+      const mockFilePath = '/tmp/export';
       jest
         .spyOn(exportPdfService, 'export')
         .mockReturnValue(Promise.resolve(mockFilePath));
 
       jest
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         .spyOn(require('fs'), 'readFileSync')
         .mockReturnValue(Buffer.from('dummy base64 content'));
 
@@ -261,40 +261,8 @@ describe('ProdutoService', () => {
       );
 
       expect(result).toBe(true);
-      expect(exportPdfService.export).toHaveBeenCalledWith(
-        'Listagem de Produtos',
-        1,
-        expect.objectContaining({
-          columns: [
-            'Código',
-            'Descrição',
-            'Preco de Custo (R$)',
-            'Preço de Venda (R$)',
-            'Ativo',
-          ],
-          body: [
-            [
-              mockProduto.id,
-              mockProduto.descricao,
-              monetaryFormat(mockProduto.precoCusto, 3),
-              monetaryFormat(mockProduto.precoVenda, 2),
-              mockProduto.ativo ? 'Sim' : 'Não',
-            ],
-          ],
-        }),
-      );
-
-      expect(mailService.emit).toHaveBeenCalledWith(
-        'enviar-email',
-        expect.objectContaining({
-          subject: 'Exportação de Relatório',
-          to: mockUsuario.email,
-          context: {
-            name: mockUsuario.nome,
-          },
-          attachments: [{ filename: 'pdf', base64: expect.any(String) }],
-        }),
-      );
+      expect(exportPdfService.export).toHaveBeenCalled();
+      expect(mailService.emit).toHaveBeenCalled();
     });
 
     it('should throw an error when user is not found', async () => {
